@@ -9,7 +9,7 @@ defmodule Crumbl do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      # supervisor(Crumbl.Repo, []),
+      supervisor(Crumbl.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Crumbl.Endpoint, []),
       # Start your own worker by calling: Crumbl.Worker.start_link(arg1, arg2, arg3)
