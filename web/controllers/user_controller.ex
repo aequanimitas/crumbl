@@ -3,7 +3,7 @@ defmodule Crumbl.UserController do
   # convert private function into a plug instead of repeating the wall of code
   # on actions we need to apply. the only thing needed is to satisfy the contract that
   # function plugs needs 2 arguments: conn and params
-  plug :authenticate when action in [:index, :show]
+  plug :authenticate_user when action in [:index, :show]
   alias Crumbl.User
 
   def index(conn, _params) do
@@ -41,22 +41,6 @@ defmodule Crumbl.UserController do
       {:error, changeset} ->
         conn
         |> render("new.html", changeset: changeset)
-    end
-  end
-
-  defp authenticate(conn, _opts) do
-    if conn.assigns.current_user do
-      # return conn unchanged
-      conn
-    else
-      conn
-      # else show flash message
-      |> put_flash(:error, "You need to be logged for that operation")
-      # redirect to app root
-      |> redirect(to: page_path(conn, :index))
-      # stop any downstream transformations from happening
-      # and just return the current connection
-      |> halt()
     end
   end
 end

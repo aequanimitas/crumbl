@@ -22,6 +22,11 @@ defmodule Crumbl.Router do
     resources "/session", SessionController, only: [:delete, :new, :create]
   end
 
+  scope "/manage", Crumbl do
+    pipe_through [:browser, :authenticate_user]
+    resources "/videos", VideoController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Crumbl do
   #   pipe_through :api

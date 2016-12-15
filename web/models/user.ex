@@ -7,6 +7,7 @@ defmodule Crumbl.User do
     # intermediate field before hashing
     field :password, :string, virtual: true
     field :password_hash, :string
+    has_many :videos, Crumbl.Video
     timestamps
   end
 

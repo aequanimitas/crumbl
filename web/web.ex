@@ -36,6 +36,7 @@ defmodule Crumbl.Web do
 
       import Crumbl.Router.Helpers
       import Crumbl.Gettext
+      import Crumbl.Auth, only: [authenticate_user: 2]  # share the function on all controllers
     end
   end
 
@@ -58,6 +59,7 @@ defmodule Crumbl.Web do
   def router do
     quote do
       use Phoenix.Router
+      import Crumbl.Auth, only: [authenticate_user: 2]  # share the function on router
     end
   end
 
