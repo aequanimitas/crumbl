@@ -1,7 +1,11 @@
 defmodule Crumbl.VideoController do
   use Crumbl.Web, :controller
 
+  # alias models
   alias Crumbl.Video
+  alias Crumbl.Category
+
+  plug :load_categories when action in [:new, :edit, :update, :create]
 
   @doc """
     Plug that dispatches to proper action at end of controller pipeline
@@ -9,6 +13,17 @@ defmodule Crumbl.VideoController do
   """
   def action(conn, _) do
     apply(__MODULE__, action_name(conn), [conn, conn.params, conn.assigns.current_user])
+  end
+
+  @doc """
+     Function plug that loads categories, to be used in select tags
+  """
+  defp load_categories(conn, _) do
+    # build query, query is a queryable, can be passed as argument to Repo
+    query = Category |> Category.alphabetical |> Category.names_and_ids
+    categories = Repo.all query
+    # set as conn key
+    assign(conn, :categories, categories)
   end
 
   def index(conn, _params, user) do
