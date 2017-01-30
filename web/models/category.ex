@@ -1,4 +1,6 @@
-defmodule Crumbl.Category do use Crumbl.Web, :model
+defmodule Crumbl.Category do 
+  
+  use Crumbl.Web, :model
 
   schema "categories" do
     field :name, :string
