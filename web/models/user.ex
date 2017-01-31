@@ -8,7 +8,7 @@ defmodule Crumbl.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many :videos, Crumbl.Video
-    timestamps
+    timestamps()
   end
 
   def changeset(model, params \\ %{}) do

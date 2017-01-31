@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :crumbl, Crumbl.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "crumbl_dev",
+  password: "crumbl_dev",
   database: "crumbl_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

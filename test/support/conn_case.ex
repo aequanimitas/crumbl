@@ -26,6 +26,7 @@ defmodule Crumbl.ConnCase do
       import Ecto.Query
 
       import Crumbl.Router.Helpers
+      import Crumbl.TestHelpers
 
       # The default endpoint for testing
       @endpoint Crumbl.Endpoint

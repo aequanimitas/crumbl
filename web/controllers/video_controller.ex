@@ -18,7 +18,7 @@ defmodule Crumbl.VideoController do
   @doc """
      Function plug that loads categories, to be used in select tags
   """
-  defp load_categories(conn, _) do
+  def load_categories(conn, _) do
     # build query, query is a queryable, can be passed as argument to Repo
     query = Category |> Category.alphabetical |> Category.names_and_ids
     categories = Repo.all query

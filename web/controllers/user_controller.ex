@@ -1,6 +1,4 @@
 defmodule Crumbl.UserController do
-  import Logger
-
   use Crumbl.Web, :controller
   # convert private function into a plug instead of repeating the wall of code
   # on actions we need to apply. the only thing needed is to satisfy the contract that
