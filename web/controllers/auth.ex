@@ -12,8 +12,30 @@ defmodule Crumbl.Auth do
 
   def call(conn, repo) do
     user_id = get_session(conn, :user_id)
-    user = user_id && repo.get(Crumbl.User, user_id)
-    assign(conn, :current_user, user)
+    cond do
+      # refactor so that code can be more testable
+
+      # - conn is from Plug
+      # - assigns is part of Connection Field in conn
+      # - returns nil if, in this case :current_user, is not set
+      # return conn if :current_user is set in shared user data map
+
+      user = conn.assigns[:current_user] -> conn
+
+      # This clause has 2 conditions
+      # - if in session there is already a user
+      # - and if db lookup there is really a user with the same credentials
+      # return conn after verifying the user
+      # The assign here is from Plug.Conn, which assigns a value to a key in the connection
+      user = user_id && repo.get(Crumbl.User, user_id) -> assign(conn, :current_user, user)
+
+      # Finally, nilify the :current_user if none of the above passes
+      true -> assign(conn, :current_user, nil)
+    end
+
+    # Initial code, refactored to the one above for testing
+    # user = user_id && repo.get(Crumbl.User, user_id)
+    # assign(conn, :current_user, user)
   end
 
   def login(conn, user) do
