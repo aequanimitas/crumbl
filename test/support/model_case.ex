@@ -21,6 +21,9 @@ defmodule Crumbl.ModelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+
+      # import test helpers
+      import Crumbl.TestHelpers
       import Crumbl.ModelCase
     end
   end
