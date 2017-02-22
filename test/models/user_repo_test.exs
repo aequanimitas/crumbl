@@ -1,4 +1,4 @@
-defmodule Crumbl.UserTest do
+defmodule Crumbl.UserRepoTest do
   use Crumbl.ModelCase, async: true
 
   alias Crumbl.User
