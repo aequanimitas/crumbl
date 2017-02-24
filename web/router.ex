@@ -20,6 +20,7 @@ defmodule Crumbl.Router do
     get "/", PageController, :index
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/session", SessionController, only: [:delete, :new, :create]
+    get "/watch/:id", WatchController, :show
   end
 
   scope "/manage", Crumbl do
