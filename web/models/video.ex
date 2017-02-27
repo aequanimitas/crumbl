@@ -1,6 +1,8 @@
 defmodule Crumbl.Video do
   use Crumbl.Web, :model
 
+  # {field, type, option}
+  @primary_key {:id, Crumbl.Permalink, autogenerate: true}
   schema "videos" do
     field :url, :string
     field :title, :string
@@ -17,6 +19,9 @@ defmodule Crumbl.Video do
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
+
+  - Can validate data, but delegate data integrity validations to the DB
+  - the beauty of changes that needs to be made described by the flow, its like story telling
   """
   def changeset(struct, params \\ %{}) do
     struct
@@ -38,5 +43,13 @@ defmodule Crumbl.Video do
     title
     |> String.downcase()
     |> String.replace(~r/[^\w-]+/u, "-")
+  end
+
+  # Protocols: A way for Elixir to perform Polymorphism
+  # Phoenix.Param default is to extract the id of the struct, if it has one
+  defimpl Phoenix.Param, for: Crumbl.Video do
+    def to_param(%{slug: slug, id: id}) do
+      "#{id}-#{slug}"
+    end
   end
 end
