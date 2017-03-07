@@ -20,14 +20,14 @@ defmodule Crumbl.Auth do
       # - returns nil if, in this case :current_user, is not set
       # return conn if :current_user is set in shared user data map
 
-      user = conn.assigns[:current_user] -> conn
+      user = conn.assigns[:current_user] -> put_current_user(conn, user)
 
       # This clause has 2 conditions
       # - if in session there is already a user
       # - and if db lookup there is really a user with the same credentials
       # return conn after verifying the user
       # The assign here is from Plug.Conn, which assigns a value to a key in the connection
-      user = user_id && repo.get(Crumbl.User, user_id) -> assign(conn, :current_user, user)
+      user = user_id && repo.get(Crumbl.User, user_id) -> put_current_user(conn, user)
 
       # Finally, nilify the :current_user if none of the above passes
       true -> assign(conn, :current_user, nil)
@@ -40,12 +40,18 @@ defmodule Crumbl.Auth do
 
   def login(conn, user) do
     conn
-    # assign to conn struct key current_user that points to user
-    |> assign(:current_user, user)
+    |> put_current_user(user)
     |> put_session(:user_id, user.id)
     # send session back to client with a different identifier
     # protection from session fixation
     |> configure_session(renew: true)
+  end
+
+  defp put_current_user(conn, user) do
+    token = Phoenix.Token.sign(conn, "user socket", user.id)
+    conn
+    |> assign(:current_user, user)
+    |> assign(:user_token, token)
   end
 
   def logout(conn) do
