@@ -3,6 +3,7 @@ defmodule Crumbl.UserSocket do
 
   ## Channels
   # channel "room:*", Crumbl.RoomChannel
+  channel "videos:*", Crumbl.VideoChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -19,6 +20,7 @@ defmodule Crumbl.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+
   def connect(_params, socket) do
     {:ok, socket}
   end
