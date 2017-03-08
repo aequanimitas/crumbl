@@ -10,7 +10,7 @@ defmodule Crumbl.Video do
     field :slug, :string
     belongs_to :user, Crumbl.User
     belongs_to :category, Crumbl.Category
-
+    has_many :annotations, Crumbl.Annotation
     timestamps()
   end
 

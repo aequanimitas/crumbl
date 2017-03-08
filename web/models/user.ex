@@ -8,6 +8,7 @@ defmodule Crumbl.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many :videos, Crumbl.Video
+    has_many :annotations, Crumbl.Annotation
     timestamps()
   end
 
