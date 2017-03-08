@@ -2,15 +2,17 @@ defmodule Crumbl.VideoChannel do
   use Crumbl.Web, :channel
 
   # string pattern-matching via concat(??)
-  def join("videos:" <> video_id, _params, socket) do
+  def join("videos:" <> video_id, params, socket) do
     # send via erlang
     # authorize a "join" attempt, {:error, socket} to done
     # just like plug conn struct, first argument is connection details struct
+    last_seen_id = params["last_seen_id"] || 0
     video_id = String.to_integer(video_id)
     video = Repo.get!(Crumbl.Video, video_id)
     annotations = Repo.all(
       from a in assoc(video, :annotations),
         order_by: [asc: a.at, asc: a.id],
+        where: a.id > ^last_seen_id,
         limit: 200,
         preload: [:user]
     )
